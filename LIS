@@ -1,0 +1,81 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int lic(int arr[],int n,vector<int> &v)
+{
+    
+    if(n==1) return arr[0];
+    
+    int lis[n];
+    lis[0] = 1;
+    
+    //calculating the max length
+    for(int i=1;i<n;i++)
+    {
+        lis[i] = 1;
+        for(int j=0;j<i;j++)
+        {
+            if(arr[i]>arr[j] && lis[i]<lis[j]+1)
+            {
+                lis[i] = lis[j]+1;
+            }
+        }
+    }
+    
+    
+    int maxi = lis[0];
+    int indx = 0;
+    //find the index of max length
+    for(int i=n-1;i>=0;i--)
+    {
+        if(lis[i]>maxi)
+        {
+           indx = i;
+           maxi = lis[i];
+        }
+    }
+    
+    //vector<int> sq;
+    v.push_back(arr[indx]);
+    
+    //adding subseqenece elements to vector by cheking
+    
+    for(int i=indx-1;i>=0;i--)
+    {
+        if(lis[i]+1==lis[indx] && arr[i]<arr[indx])
+        {
+            indx = i;
+            v.push_back(arr[i]);
+        }
+    }
+    
+    return maxi;  // returning the max length of increasing subsequence
+    
+}
+
+
+
+
+
+
+int main() {
+	// your code goes here
+	int n;
+	cin>>n;
+	int arr[n];
+	vector<int> v;
+	for(int i=0;i<n;i++)
+	{
+	    cin>>arr[i];
+	}
+	int res = lic(arr,n,v);
+	cout<<res<<endl; //printing the length
+	
+	for(int x:v) // printing the susequence elements
+	{
+	    cout<<x<<" ";
+	}
+	return 0;
+}
