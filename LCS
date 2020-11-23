@@ -1,0 +1,41 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+
+
+int lcs(int i,int j,string s1,string s2,vector<vector<int>> &dp)
+{
+    
+    
+    if(i>=s1.length()||j>=s2.lenght()) return 0;  //base case;
+    
+    if(dp[i][j]!=-1) return dp[i][j];  //fetching from dp matrix
+    
+    if(s1[i]==s2[j])   //if matches move in bith characters and count 1;
+    {
+        i = i+1;
+        j = j+1;
+        return 1+lcs(i,j,s1,s2);
+    }
+    else
+    {
+        int left = lcs(i+1,j,s1,s2); //if did not match move one character of s1  and keeping same s2
+        int right = lcs(i,j+1,s1,s2);//if did match move one character of s2 and keeping same s1
+        return dp[i][j] = max(left,right);
+    }
+    
+}
+int main()
+{
+    
+    string s1;
+    string s2;
+    cin>>s1;
+    cin>>s2;
+    int n = s1.length();
+    int m = s2.length();
+    vector<vector<int>> dp(n,vector<int>(m,-1));
+    cout<<lcs(0,0,s1,s2,dp)<<endl   //function calling 
+}
+
